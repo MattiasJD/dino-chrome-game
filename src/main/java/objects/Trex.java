@@ -24,7 +24,7 @@ public class Trex extends ImageView {
             throw new RuntimeException(e);
         }
         super.setImage(image);
-        super.setImage(image1);
+
         sceneManager.showOnlySceneCollection(this);
     }
 

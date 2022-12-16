@@ -3,6 +3,7 @@ package cz.spsmb.game;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -11,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import objects.Clouds;
 import objects.Trex;
 import views.SceneManager;
 
@@ -36,7 +38,9 @@ public class DinoGame extends Scene {
     }
 
     public void isHit(double dinoPos, double recPos) {
-        if (dinoPos == recPos) {
+        System.out.println(dinoPos);
+        System.out.println(recPos);
+        if ((int) dinoPos == (int) recPos) {
             gameOver();
         } else {
             SCORE = SCORE+1;
@@ -79,7 +83,7 @@ public class DinoGame extends Scene {
                 }
             }
         }).start();
-        sceneManager.showOnlySceneCollection(rec, ground, trex, score, end);
+        sceneManager.showOnlySceneCollection(trex,rec, ground, score, end);
 
     }
 

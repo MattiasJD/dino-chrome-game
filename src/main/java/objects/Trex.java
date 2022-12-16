@@ -10,19 +10,15 @@ import java.io.FileNotFoundException;
 
 public class Trex extends ImageView {
     private SceneManager sceneManager;
-    AnimationThread thread = new AnimationThread();
+    private AnimationThread thread;
     public Trex(SceneManager sceneManager) {
-        thread.start();
         this.sceneManager = sceneManager;
+        this.thread = new AnimationThread(this);
         init();
     }
 
     private void init() {
-        System.out.println(thread.getImage().getWidth());
-        Image image = thread.getImage();
-        super.setImage(image);
-
-
+        thread.start();
         sceneManager.showOnlySceneCollection(this);
     }
 

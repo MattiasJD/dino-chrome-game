@@ -19,6 +19,7 @@ import views.SceneManager;
 
 public class DinoGame extends Scene {
 
+    private static int SPEED = 8;
     private static final int SCENE_WIDTH = 600;
     private static final int SCENE_HEIGHT = 600;
     private static final int GROUND_HEIGHT = 400;
@@ -37,13 +38,16 @@ public class DinoGame extends Scene {
         gameStart();
     }
 
-    public void isHit(double dinoPos, double recPos) {
+    public void isHit(int dinoPos, int recPos) {
         System.out.println(dinoPos);
         System.out.println(recPos);
-        if ((int) dinoPos == (int) recPos) {
+        if (dinoPos >= recPos) {
             gameOver();
         } else {
-            SCORE = SCORE+1;
+            SCORE = SCORE + 1;
+            if (SPEED >= 2) {
+                SPEED = SPEED - 1;
+            }
         }
     }
 
@@ -60,11 +64,11 @@ public class DinoGame extends Scene {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (isRunning == true) {
+                while (isRunning) {
                     score.setText("Score "+ SCORE);
                     rec.setX(rec.getX() - 1);
                     if(trex.getX()+150 == rec.getX()){
-                        isHit(trex.getY() + 100, rec.getY() + rec.getHeight());
+                        isHit((int) (trex.getY() + 100), (int) (rec.getY() + rec.getHeight()));
                     }
 
                     if (trex.getY() < GROUND_HEIGHT - 100) {
@@ -76,23 +80,26 @@ public class DinoGame extends Scene {
                     }
 
                     try {
-                        Thread.sleep(6);
+                        Thread.sleep(SPEED);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                 }
             }
         }).start();
-        sceneManager.showOnlySceneCollection(trex,rec, ground, score, end);
+        sceneManager.showOnlySceneCollection(ground, trex, rec, score, end);
 
     }
-
     private void initHandlers() {
         super.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
+                System.out.println(IsOnGround.JUMPING);
+                System.out.println(trex.getY());
                 if(keyEvent.getText().equals("w")){
-                    trex.setY(trex.getY()-70);
+                    if (trex.getY()+100 >= GROUND_HEIGHT) {
+                        trex.setY(trex.getY()-70);
+                    }
                 }
             }
         });
